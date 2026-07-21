@@ -1,0 +1,68 @@
+{
+  "function": {
+    "prefix": "fn",
+    "body": [
+      "fn ${1:name}(${2}) ${3:-> ${4:Type} }{",
+      "\t$0",
+      "}"
+    ],
+    "description": "Function declaration"
+  },
+  "public function": {
+    "prefix": "pub fn",
+    "body": [
+      "pub fn ${1:name}(${2}) ${3:-> ${4:Type} }{",
+      "\t$0",
+      "}"
+    ],
+    "description": "Public function declaration"
+  },
+  "struct": {
+    "prefix": "struct",
+    "body": [
+      "pub struct ${1:Name} {",
+      "\t$0",
+      "}"
+    ],
+    "description": "Struct declaration"
+  },
+  "enum": {
+    "prefix": "enum",
+    "body": [
+      "pub enum ${1:Name} {",
+      "\t$0",
+      "}"
+    ],
+    "description": "Enum declaration"
+  },
+  "match": {
+    "prefix": "match",
+    "body": [
+      "match ${1:expr} {",
+      "\t${2:pattern} => {",
+      "\t\t$0",
+      "\t},",
+      "}"
+    ],
+    "description": "Match expression"
+  },
+  "for loop": {
+    "prefix": "for",
+    "body": [
+      "for ${1:item} in ${2:iterable} {",
+      "\t$0",
+      "}"
+    ],
+    "description": "For loop"
+  },
+  "test": {
+    "prefix": "test",
+    "body": [
+      "#[test]",
+      "fn ${1:test_name}() {",
+      "\t$0",
+      "}"
+    ],
+    "description": "Test function"
+  }
+}
