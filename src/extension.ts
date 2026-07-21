@@ -22,24 +22,24 @@ import * as path from "path";
 let client: LanguageClient | undefined;
 let runTerminal: Terminal | undefined;
 
-// Cached, resolved path to the `hawk` executable. Populated lazily by
-// ensureHawkPath() and shared by the language server and the Run/Test commands
+// Cached, resolved path to the `thera` executable. Populated lazily by
+// ensureTheraPath() and shared by the language server and the Run/Test commands
 // so they never disagree about which toolchain to use.
-let hawkPath: string | undefined;
+let theraPath: string | undefined;
 
-// The explicit `hawk.path` setting, or undefined if it's empty/unset.
-function configuredHawkPath(): string | undefined {
-  const p = workspace.getConfiguration("hawk").get<string>("path", "").trim();
+// The explicit `thera.path` setting, or undefined if it's empty/unset.
+function configuredTheraPath(): string | undefined {
+  const p = workspace.getConfiguration("thera").get<string>("path", "").trim();
   return p !== "" ? p : undefined;
 }
 
-// Look for an executable named `hawk` on the user's PATH. Returns the first
-// match (which for an installed SDK is `<sdk>/bin/hawk`), or undefined.
-function findHawkOnPath(): string | undefined {
+// Look for an executable named `thera` on the user's PATH. Returns the first
+// match (which for an installed SDK is `<sdk>/bin/thera`), or undefined.
+function findTheraOnPath(): string | undefined {
   const names =
     process.platform === "win32"
-      ? ["hawk.exe", "hawk.cmd", "hawk.bat", "hawk"]
-      : ["hawk"];
+      ? ["thera.exe", "thera.cmd", "thera.bat", "thera"]
+      : ["thera"];
   const dirs = (process.env.PATH ?? "").split(path.delimiter).filter(Boolean);
   for (const dir of dirs) {
     for (const name of names) {
@@ -55,11 +55,11 @@ function findHawkOnPath(): string | undefined {
   return undefined;
 }
 
-// Resolve a user-picked filesystem path to the `hawk` executable: accept the
-// binary itself, or an SDK folder containing `bin/hawk` (or `hawk`). Returns
+// Resolve a user-picked filesystem path to the `thera` executable: accept the
+// binary itself, or an SDK folder containing `bin/thera` (or `thera`). Returns
 // undefined if nothing usable is found.
-function hawkExecutableFrom(picked: string): string | undefined {
-  const exe = process.platform === "win32" ? "hawk.exe" : "hawk";
+function theraExecutableFrom(picked: string): string | undefined {
+  const exe = process.platform === "win32" ? "thera.exe" : "thera";
   let stat: fs.Stats;
   try {
     stat = fs.statSync(picked);
@@ -73,65 +73,65 @@ function hawkExecutableFrom(picked: string): string | undefined {
   return undefined;
 }
 
-// Persist a resolved path to the global `hawk.path` setting so it's stable and
+// Persist a resolved path to the global `thera.path` setting so it's stable and
 // visible in the Settings UI. Global scope because an SDK install is
 // per-machine, not per-workspace.
-async function persistHawkPath(p: string): Promise<void> {
+async function persistTheraPath(p: string): Promise<void> {
   await workspace
-    .getConfiguration("hawk")
+    .getConfiguration("thera")
     .update("path", p, ConfigurationTarget.Global);
 }
 
-// Resolve the `hawk` executable, in order: the explicit `hawk.path` setting;
+// Resolve the `thera` executable, in order: the explicit `thera.path` setting;
 // then PATH auto-detection; then a prompt to locate the SDK. Auto-detected and
-// user-picked paths are written back to `hawk.path`. Returns undefined only if
+// user-picked paths are written back to `thera.path`. Returns undefined only if
 // the user dismisses the locate prompt.
-async function resolveHawkPath(): Promise<string | undefined> {
-  const configured = configuredHawkPath();
+async function resolveTheraPath(): Promise<string | undefined> {
+  const configured = configuredTheraPath();
   if (configured) return configured;
 
-  const onPath = findHawkOnPath();
+  const onPath = findTheraOnPath();
   if (onPath) {
-    await persistHawkPath(onPath);
+    await persistTheraPath(onPath);
     return onPath;
   }
 
   const picked = await window.showOpenDialog({
-    title: "Locate the Hawk SDK",
-    openLabel: "Use Hawk SDK",
+    title: "Locate the Thera SDK",
+    openLabel: "Use Thera SDK",
     canSelectFiles: true,
     canSelectFolders: true,
     canSelectMany: false,
   });
   if (picked && picked.length > 0) {
-    const exe = hawkExecutableFrom(picked[0].fsPath);
+    const exe = theraExecutableFrom(picked[0].fsPath);
     if (exe) {
-      await persistHawkPath(exe);
+      await persistTheraPath(exe);
       return exe;
     }
     window.showErrorMessage(
-      "Couldn't find a `hawk` executable at the selected location. " +
-        "Pick the SDK folder (containing bin/hawk) or the hawk binary itself.",
+      "Couldn't find a `thera` executable at the selected location. " +
+        "Pick the SDK folder (containing bin/thera) or the thera binary itself.",
     );
   }
   return undefined;
 }
 
 // Cached accessor used by the Run/Test commands; resolves on first use.
-async function ensureHawkPath(): Promise<string | undefined> {
-  if (!hawkPath) hawkPath = await resolveHawkPath();
-  return hawkPath;
+async function ensureTheraPath(): Promise<string | undefined> {
+  if (!theraPath) theraPath = await resolveTheraPath();
+  return theraPath;
 }
 
 function runInTerminal(command: string) {
   if (!runTerminal || runTerminal.exitStatus !== undefined) {
-    runTerminal = window.createTerminal("Hawk");
+    runTerminal = window.createTerminal("Thera");
   }
   runTerminal.show();
   runTerminal.sendText(command);
 }
 
-class HawkCodeLensProvider implements CodeLensProvider {
+class TheraCodeLensProvider implements CodeLensProvider {
   provideCodeLenses(document: TextDocument): CodeLens[] {
     const lenses: CodeLens[] = [];
     const text = document.getText();
@@ -145,7 +145,7 @@ class HawkCodeLensProvider implements CodeLensProvider {
       lenses.push(
         new CodeLens(range, {
           title: "Run",
-          command: "hawk.run",
+          command: "thera.run",
           arguments: [document.uri.fsPath],
         })
       );
@@ -158,7 +158,7 @@ class HawkCodeLensProvider implements CodeLensProvider {
       lenses.push(
         new CodeLens(range, {
           title: "Test",
-          command: "hawk.test",
+          command: "thera.test",
           arguments: [document.uri.fsPath, match[1]],
         })
       );
@@ -168,26 +168,26 @@ class HawkCodeLensProvider implements CodeLensProvider {
   }
 }
 
-// The `hawk.exclude` globs — workspace-relative path patterns (e.g.
+// The `thera.exclude` globs — workspace-relative path patterns (e.g.
 // `tests/lang/**`) whose files the server withholds diagnostics for. Sent to the
 // server, which does the matching (it drives project-wide diagnostics over the
 // pull channel, and filtering there is uniform across every channel).
 function excludePatterns(): string[] {
-  return workspace.getConfiguration("hawk").get<string[]>("exclude", []);
+  return workspace.getConfiguration("thera").get<string[]>("exclude", []);
 }
 
-// Create (but don't start) the Hawk language client bound to the given `hawk`
-// executable. The server is a plain `hawk lsp` subprocess over stdio.
-function createClient(hawk: string): LanguageClient {
+// Create (but don't start) the Thera language client bound to the given `thera`
+// executable. The server is a plain `thera lsp` subprocess over stdio.
+function createClient(thera: string): LanguageClient {
   const serverOptions: ServerOptions = {
-    command: hawk,
+    command: thera,
     args: ["lsp"],
     options: {},
   };
 
   const clientOptions: LanguageClientOptions = {
-    // Register the server for Hawk documents.
-    documentSelector: [{ scheme: "file", language: "hawk" }],
+    // Register the server for Thera documents.
+    documentSelector: [{ scheme: "file", language: "thera" }],
     synchronize: {
       // Notify the server about file changes in the workspace.
       fileEvents: workspace.createFileSystemWatcher("**/.clientrc"),
@@ -201,87 +201,87 @@ function createClient(hawk: string): LanguageClient {
   };
 
   return new LanguageClient(
-    "hawkLanguageServer",
-    "Hawk Language Server",
+    "theraLanguageServer",
+    "Thera Language Server",
     serverOptions,
     clientOptions,
   );
 }
 
-// Resolve the `hawk` executable and start the language server. If no executable
+// Resolve the `thera` executable and start the language server. If no executable
 // can be resolved (the user dismissed the locate prompt), warns and leaves the
 // server unstarted — Run/Test still work once a path is configured.
 async function startLanguageServer(): Promise<void> {
-  const hawk = await ensureHawkPath();
-  if (!hawk) {
+  const thera = await ensureTheraPath();
+  if (!thera) {
     window.showWarningMessage(
-      "Hawk: no `hawk` executable found. Set `hawk.path`, or run " +
-        "“Hawk: Restart Language Server” to locate the SDK.",
+      "Thera: no `thera` executable found. Set `thera.path`, or run " +
+        "“Thera: Restart Language Server” to locate the SDK.",
     );
     return;
   }
-  client = createClient(hawk);
+  client = createClient(thera);
   await client.start();
 }
 
 export async function activate(context: ExtensionContext) {
-  // Register command to (re)start the server. This also re-resolves hawk.path,
+  // Register command to (re)start the server. This also re-resolves thera.path,
   // so it doubles as the way to pick up a changed setting or retry after the
   // locate prompt was dismissed.
   const restartCommand = commands.registerCommand(
-    "hawk.restartServer",
+    "thera.restartServer",
     async () => {
       try {
         if (client) {
           await client.stop();
           client = undefined;
         }
-        hawkPath = undefined; // force re-resolution from the current setting
-        window.showInformationMessage("Restarting Hawk Language Server...");
+        theraPath = undefined; // force re-resolution from the current setting
+        window.showInformationMessage("Restarting Thera Language Server...");
         await startLanguageServer();
         if (client) {
           window.showInformationMessage(
-            "Hawk Language Server restarted successfully.",
+            "Thera Language Server restarted successfully.",
           );
         }
       } catch (error) {
         window.showErrorMessage(
-          `Failed to restart Hawk Language Server: ${error}`,
+          `Failed to restart Thera Language Server: ${error}`,
         );
       }
     },
   );
 
   const runCommand = commands.registerCommand(
-    "hawk.run",
+    "thera.run",
     async (file: string) => {
-      const hawk = await ensureHawkPath();
-      if (!hawk) return;
-      runInTerminal(`${hawk} run "${file}"`);
+      const thera = await ensureTheraPath();
+      if (!thera) return;
+      runInTerminal(`${thera} run "${file}"`);
     }
   );
 
   const testCommand = commands.registerCommand(
-    "hawk.test",
+    "thera.test",
     async (file: string, _testName?: string) => {
       // For v0 we just test the file. testName filtering can be a future CLI feature
-      const hawk = await ensureHawkPath();
-      if (!hawk) return;
-      runInTerminal(`${hawk} test "${file}"`);
+      const thera = await ensureTheraPath();
+      if (!thera) return;
+      runInTerminal(`${thera} test "${file}"`);
     }
   );
 
   const codeLensProvider = languages.registerCodeLensProvider(
-    { scheme: "file", language: "hawk" },
-    new HawkCodeLensProvider()
+    { scheme: "file", language: "thera" },
+    new TheraCodeLensProvider()
   );
 
-  // Push a live `hawk.exclude` change to the running server (it applies the new
+  // Push a live `thera.exclude` change to the running server (it applies the new
   // filter and nudges a re-pull). No restart needed.
   const configListener = workspace.onDidChangeConfiguration((e) => {
-    if (e.affectsConfiguration("hawk.exclude") && client) {
+    if (e.affectsConfiguration("thera.exclude") && client) {
       client.sendNotification("workspace/didChangeConfiguration", {
-        settings: { hawk: { exclude: excludePatterns() } },
+        settings: { thera: { exclude: excludePatterns() } },
       });
     }
   });

@@ -1,8 +1,8 @@
-# Hawk Language Support for VS Code
+# Thera Language Support for VS Code
 
-Hawk is a modern, expressive, and highly productive programming language designed specifically for LLMs, AI coding agents, and developers to write clean, fast, and robust tools and CLI applications.
+Thera is a modern, expressive, and highly productive programming language designed specifically for LLMs, AI coding agents, and developers to write clean, fast, and robust tools and CLI applications.
 
-This extension provides comprehensive, premium syntax highlighting and language support for Hawk in Visual Studio Code.
+This extension provides comprehensive, premium syntax highlighting and language support for Thera in Visual Studio Code.
 
 ---
 
@@ -29,9 +29,9 @@ This extension provides comprehensive, premium syntax highlighting and language 
 
 ## Language Specifications At A Glance
 
-Hawk's syntax is familiar, clean, and expression-oriented:
+Thera's syntax is familiar, clean, and expression-oriented:
 
-```hawk
+```thera
 import std.process;
 
 fn current_branch() -> Result<String, Error> {
@@ -52,15 +52,15 @@ fn main(args: Args) -> Result<Int, Error> {
 
 ### Running the Extension Locally
 
-1. Clone or copy this repository to your local VS Code extensions directory: `~/.vscode/extensions/hawk`.
-2. Alternatively, open this folder (`hawk-ext`) in VS Code.
+1. Clone or copy this repository to your local VS Code extensions directory: `~/.vscode/extensions/thera`.
+2. Alternatively, open this folder (`thera-ext`) in VS Code.
 3. Press **`F5`** to launch a new **[Extension Development Host]** window.
-4. In the new window, open any file ending in `.hawk` to experience premium syntax highlighting!
+4. In the new window, open any file ending in `.thera` to experience premium syntax highlighting!
 
 ### Debugging TextMate Scopes
 
-To inspect the exact scopes applied to Hawk tokens:
+To inspect the exact scopes applied to Thera tokens:
 
 1. Open the command palette (`Cmd+Shift+P` / `Ctrl+Shift+P`).
 2. Run **`Developer: Inspect Editor Tokens and Scopes`**.
-3. Click on any token in your `.hawk` file to inspect its TextMate scope (e.g. `source.hawk`).
+3. Click on any token in your `.thera` file to inspect its TextMate scope (e.g. `source.thera`).

@@ -1,7 +1,7 @@
 {
   "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
-  "name": "Hawk",
-  "scopeName": "source.hawk",
+  "name": "Thera",
+  "scopeName": "source.thera",
   "patterns": [
     {
       "include": "#comments"
@@ -41,12 +41,12 @@
     "comments": {
       "patterns": [
         {
-          "name": "comment.block.hawk",
+          "name": "comment.block.thera",
           "begin": "/\\*",
           "end": "\\*/"
         },
         {
-          "name": "comment.line.double-slash.hawk",
+          "name": "comment.line.double-slash.thera",
           "begin": "//",
           "end": "$"
         }
@@ -55,36 +55,36 @@
     "strings": {
       "patterns": [
         {
-          "name": "string.quoted.single.hawk",
+          "name": "string.quoted.single.thera",
           "begin": "'",
           "beginCaptures": {
             "0": {
-              "name": "punctuation.definition.string.begin.hawk"
+              "name": "punctuation.definition.string.begin.thera"
             }
           },
           "end": "'",
           "endCaptures": {
             "0": {
-              "name": "punctuation.definition.string.end.hawk"
+              "name": "punctuation.definition.string.end.thera"
             }
           },
           "patterns": [
             {
-              "name": "constant.character.escape.hawk",
+              "name": "constant.character.escape.thera",
               "match": "\\\\."
             },
             {
-              "name": "meta.embedded.line.hawk",
+              "name": "meta.embedded.line.thera",
               "begin": "\\$\\{",
               "beginCaptures": {
                 "0": {
-                  "name": "punctuation.section.embedded.begin.hawk"
+                  "name": "punctuation.section.embedded.begin.thera"
                 }
               },
               "end": "\\}",
               "endCaptures": {
                 "0": {
-                  "name": "punctuation.section.embedded.end.hawk"
+                  "name": "punctuation.section.embedded.end.thera"
                 }
               },
               "patterns": [
@@ -96,36 +96,36 @@
           ]
         },
         {
-          "name": "string.quoted.double.hawk",
+          "name": "string.quoted.double.thera",
           "begin": "\"",
           "beginCaptures": {
             "0": {
-              "name": "punctuation.definition.string.begin.hawk"
+              "name": "punctuation.definition.string.begin.thera"
             }
           },
           "end": "\"",
           "endCaptures": {
             "0": {
-              "name": "punctuation.definition.string.end.hawk"
+              "name": "punctuation.definition.string.end.thera"
             }
           },
           "patterns": [
             {
-              "name": "constant.character.escape.hawk",
+              "name": "constant.character.escape.thera",
               "match": "\\\\."
             },
             {
-              "name": "meta.embedded.line.hawk",
+              "name": "meta.embedded.line.thera",
               "begin": "\\$\\{",
               "beginCaptures": {
                 "0": {
-                  "name": "punctuation.section.embedded.begin.hawk"
+                  "name": "punctuation.section.embedded.begin.thera"
                 }
               },
               "end": "\\}",
               "endCaptures": {
                 "0": {
-                  "name": "punctuation.section.embedded.end.hawk"
+                  "name": "punctuation.section.embedded.end.thera"
                 }
               },
               "patterns": [
@@ -141,11 +141,11 @@
     "decorators": {
       "patterns": [
         {
-          "name": "meta.annotation.hawk",
+          "name": "meta.annotation.thera",
           "match": "@[a-zA-Z_][a-zA-Z0-9_]*",
           "captures": {
             "0": {
-              "name": "entity.name.tag.decorator.hawk"
+              "name": "entity.name.tag.decorator.thera"
             }
           }
         }
@@ -154,23 +154,23 @@
     "keywords": {
       "patterns": [
         {
-          "name": "keyword.control.hawk",
+          "name": "keyword.control.thera",
           "match": "\\b(return|throw|if|else|for|in|while|match|break|continue)\\b"
         },
         {
-          "name": "keyword.declaration.hawk",
+          "name": "keyword.declaration.thera",
           "match": "\\b(let|mut|const|pub|fn|type|struct|interface|enum|impl|native)\\b"
         },
         {
-          "name": "keyword.other.import.hawk",
+          "name": "keyword.other.import.thera",
           "match": "\\b(import|as)\\b"
         },
         {
-          "name": "variable.language.self.hawk",
+          "name": "variable.language.self.thera",
           "match": "\\bself\\b"
         },
         {
-          "name": "variable.language.wildcard.hawk",
+          "name": "variable.language.wildcard.thera",
           "match": "\\b_\\b"
         }
       ]
@@ -178,15 +178,15 @@
     "constants": {
       "patterns": [
         {
-          "name": "constant.language.boolean.hawk",
+          "name": "constant.language.boolean.thera",
           "match": "\\b(true|false)\\b"
         },
         {
-          "name": "constant.language.void.hawk",
+          "name": "constant.language.void.thera",
           "match": "\\bvoid\\b"
         },
         {
-          "name": "constant.language.variant.hawk",
+          "name": "constant.language.variant.thera",
           "match": "\\b(Ok|Err|Some|None)\\b"
         }
       ]
@@ -194,7 +194,7 @@
     "types": {
       "patterns": [
         {
-          "name": "support.type.hawk",
+          "name": "support.type.thera",
           "match": "\\b[A-Z][a-zA-Z0-9_]*\\b"
         }
       ]
@@ -202,7 +202,7 @@
     "namespaces": {
       "patterns": [
         {
-          "name": "entity.name.namespace.hawk",
+          "name": "entity.name.namespace.thera",
           "match": "\\b([a-zA-Z_][a-zA-Z0-9_]*)\\.(?=[a-zA-Z_])"
         }
       ]
@@ -213,15 +213,15 @@
           "match": "\\b(fn)\\s+([a-zA-Z_][a-zA-Z0-9_]*)\\b",
           "captures": {
             "1": {
-              "name": "keyword.declaration.hawk"
+              "name": "keyword.declaration.thera"
             },
             "2": {
-              "name": "entity.name.function.hawk"
+              "name": "entity.name.function.thera"
             }
           }
         },
         {
-          "name": "entity.name.function.hawk",
+          "name": "entity.name.function.thera",
           "match": "\\b([a-zA-Z_][a-zA-Z0-9_]*)\\s*(?=\\()"
         }
       ]
@@ -229,11 +229,11 @@
     "numbers": {
       "patterns": [
         {
-          "name": "constant.numeric.float.hawk",
+          "name": "constant.numeric.float.thera",
           "match": "\\b\\d+\\.\\d+\\b"
         },
         {
-          "name": "constant.numeric.integer.hawk",
+          "name": "constant.numeric.integer.thera",
           "match": "\\b\\d+\\b"
         }
       ]
@@ -241,7 +241,7 @@
     "operators": {
       "patterns": [
         {
-          "name": "keyword.operator.hawk",
+          "name": "keyword.operator.thera",
           "match": "->|=>|\\?|\\.\\.|==|!=|<=|>=|&&|\\|\\||[=+\\-*/%!<>]"
         }
       ]
@@ -249,23 +249,23 @@
     "punctuation": {
       "patterns": [
         {
-          "name": "punctuation.separator.hawk",
+          "name": "punctuation.separator.thera",
           "match": ",|\\.|:"
         },
         {
-          "name": "punctuation.terminator.hawk",
+          "name": "punctuation.terminator.thera",
           "match": ";"
         },
         {
-          "name": "punctuation.section.bracket.round.hawk",
+          "name": "punctuation.section.bracket.round.thera",
           "match": "\\(|\\)"
         },
         {
-          "name": "punctuation.section.bracket.square.hawk",
+          "name": "punctuation.section.bracket.square.thera",
           "match": "\\[|\\]"
         },
         {
-          "name": "punctuation.section.bracket.curly.hawk",
+          "name": "punctuation.section.bracket.curly.thera",
           "match": "\\{|\\}"
         }
       ]

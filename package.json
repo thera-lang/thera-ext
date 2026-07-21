@@ -1,7 +1,7 @@
 {
-  "name": "hawk",
-  "displayName": "Hawk",
-  "description": "Language support for Hawk, a productive programming language for LLMs and coding agents.",
+  "name": "thera",
+  "displayName": "Thera",
+  "description": "Language support for Thera, a productive programming language for LLMs and coding agents.",
   "version": "0.1.0",
   "publisher": "devoncarew",
   "engines": {
@@ -28,61 +28,61 @@
   },
   "contributes": {
     "configuration": {
-      "title": "Hawk",
+      "title": "Thera",
       "properties": {
-        "hawk.exclude": {
+        "thera.exclude": {
           "type": "array",
           "items": {
             "type": "string"
           },
           "default": [],
-          "markdownDescription": "Glob patterns (relative to the workspace folder) whose files should not show Hawk diagnostics in the editor. The language server still analyzes these files — this only hides their diagnostics in VS Code, so `hawk check` and the conformance harness are unaffected. Example: `tests/lang/**` hides the intentionally-broken language-conformance tests."
+          "markdownDescription": "Glob patterns (relative to the workspace folder) whose files should not show Thera diagnostics in the editor. The language server still analyzes these files — this only hides their diagnostics in VS Code, so `thera check` and the conformance harness are unaffected. Example: `tests/lang/**` hides the intentionally-broken language-conformance tests."
         },
-        "hawk.path": {
+        "thera.path": {
           "type": "string",
           "default": "",
-          "markdownDescription": "The path to the `hawk` CLI executable (used for both the language server and Run/Test). If empty, the extension auto-detects `hawk` on your `PATH` and, failing that, prompts you to locate the Hawk SDK — storing the result here. Changing this takes effect after `Hawk: Restart Language Server` or reloading the window."
+          "markdownDescription": "The path to the `thera` CLI executable (used for both the language server and Run/Test). If empty, the extension auto-detects `thera` on your `PATH` and, failing that, prompts you to locate the Thera SDK — storing the result here. Changing this takes effect after `Thera: Restart Language Server` or reloading the window."
         }
       }
     },
     "commands": [
       {
-        "command": "hawk.restartServer",
-        "title": "Hawk: Restart Language Server"
+        "command": "thera.restartServer",
+        "title": "Thera: Restart Language Server"
       },
       {
-        "command": "hawk.run",
-        "title": "Hawk: Run File"
+        "command": "thera.run",
+        "title": "Thera: Run File"
       },
       {
-        "command": "hawk.test",
-        "title": "Hawk: Test File"
+        "command": "thera.test",
+        "title": "Thera: Test File"
       }
     ],
     "languages": [
       {
-        "id": "hawk",
+        "id": "thera",
         "aliases": [
-          "Hawk",
-          "hawk"
+          "Thera",
+          "thera"
         ],
         "extensions": [
-          ".hawk"
+          ".thera"
         ],
         "configuration": "./language-configuration.json"
       }
     ],
     "grammars": [
       {
-        "language": "hawk",
-        "scopeName": "source.hawk",
-        "path": "./syntaxes/hawk.tmLanguage.json"
+        "language": "thera",
+        "scopeName": "source.thera",
+        "path": "./syntaxes/thera.tmLanguage.json"
       }
     ],
     "snippets": [
       {
-        "language": "hawk",
-        "path": "./syntaxes/hawk.code-snippets"
+        "language": "thera",
+        "path": "./syntaxes/thera.code-snippets"
       }
     ]
   }

@@ -1,3 +1,10 @@
+## [Unreleased]
+
+### Changed
+
+- The language was renamed **Hawk → Thera**: the language id, file extension
+  (`.thera`), commands, and settings are now `thera.*` / `Thera: …`.
+
 ## [0.1.0] - 2026-05-26
 
 ### Added
