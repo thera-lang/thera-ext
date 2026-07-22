@@ -85,7 +85,7 @@ async function persistTheraPath(p: string): Promise<void> {
 // Resolve the `thera` executable, in order: the explicit `thera.path` setting;
 // then PATH auto-detection; then a prompt to locate the SDK. Auto-detected and
 // user-picked paths are written back to `thera.path`. Returns undefined only if
-// the user dismisses the locate prompt.
+// the user declines or dismisses the locate prompt.
 async function resolveTheraPath(): Promise<string | undefined> {
   const configured = configuredTheraPath();
   if (configured) return configured;
@@ -96,6 +96,13 @@ async function resolveTheraPath(): Promise<string | undefined> {
     return onPath;
   }
 
+  return promptToLocateSdk();
+}
+
+// Open a file picker for the Thera SDK and, if the user picks a usable location,
+// persist and return the resolved `thera` executable. Returns undefined if the
+// user cancels or the selection doesn't contain a `thera` binary.
+async function pickTheraPath(): Promise<string | undefined> {
   const picked = await window.showOpenDialog({
     title: "Locate the Thera SDK",
     openLabel: "Use Thera SDK",
@@ -115,6 +122,22 @@ async function resolveTheraPath(): Promise<string | undefined> {
     );
   }
   return undefined;
+}
+
+// When the `thera` CLI can't be found automatically, explain the situation with
+// a (non-blocking) notification rather than surfacing a bare file dialog. The
+// notification's button opens the picker; dismissing it leaves the server
+// unstarted until the user tries again. Returns the resolved executable, or
+// undefined if the user dismisses the notification or cancels the picker.
+async function promptToLocateSdk(): Promise<string | undefined> {
+  const locate = "Locate SDK…";
+  const choice = await window.showInformationMessage(
+    "Thera: couldn't find the `thera` CLI on your PATH. Locate your Thera SDK " +
+      "to enable diagnostics, hover, and other language features.",
+    locate,
+  );
+  if (choice !== locate) return undefined;
+  return pickTheraPath();
 }
 
 // Cached accessor used by the Run/Test commands; resolves on first use.
@@ -224,6 +247,14 @@ async function startLanguageServer(): Promise<void> {
   await client.start();
 }
 
+// Stop the running language client, if any, so a fresh one can be started.
+async function stopClient(): Promise<void> {
+  if (client) {
+    await client.stop();
+    client = undefined;
+  }
+}
+
 export async function activate(context: ExtensionContext) {
   // Register command to (re)start the server. This also re-resolves thera.path,
   // so it doubles as the way to pick up a changed setting or retry after the
@@ -232,10 +263,7 @@ export async function activate(context: ExtensionContext) {
     "thera.restartServer",
     async () => {
       try {
-        if (client) {
-          await client.stop();
-          client = undefined;
-        }
+        await stopClient();
         theraPath = undefined; // force re-resolution from the current setting
         window.showInformationMessage("Restarting Thera Language Server...");
         await startLanguageServer();
@@ -248,6 +276,29 @@ export async function activate(context: ExtensionContext) {
         window.showErrorMessage(
           `Failed to restart Thera Language Server: ${error}`,
         );
+      }
+    },
+  );
+
+  // Let the user (re)point the extension at their Thera SDK on demand, then
+  // restart the server against it. Unlike the auto-prompt, this is always
+  // available from the command palette.
+  const locateSdkCommand = commands.registerCommand(
+    "thera.locateSdk",
+    async () => {
+      try {
+        const picked = await pickTheraPath();
+        if (!picked) return; // user cancelled, or the selection was unusable
+        theraPath = picked;
+        await stopClient();
+        await startLanguageServer();
+        if (client) {
+          window.showInformationMessage(
+            `Thera SDK set to ${picked}. Language server started.`,
+          );
+        }
+      } catch (error) {
+        window.showErrorMessage(`Failed to start Thera Language Server: ${error}`);
       }
     },
   );
@@ -288,6 +339,7 @@ export async function activate(context: ExtensionContext) {
 
   context.subscriptions.push(
     restartCommand,
+    locateSdkCommand,
     runCommand,
     testCommand,
     codeLensProvider,

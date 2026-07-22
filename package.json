@@ -13,6 +13,7 @@
   "main": "./dist/extension.js",
   "scripts": {
     "vscode:prepublish": "npm run package",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
     "compile": "npm run package",
     "watch": "npm run package -- --watch",
     "package": "esbuild src/extension.ts --bundle --outfile=dist/extension.js --external:vscode --format=cjs --platform=node --minify"
@@ -49,6 +50,10 @@
       {
         "command": "thera.restartServer",
         "title": "Thera: Restart Language Server"
+      },
+      {
+        "command": "thera.locateSdk",
+        "title": "Thera: Locate SDK"
       },
       {
         "command": "thera.run",
