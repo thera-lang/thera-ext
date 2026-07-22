@@ -1,29 +1,34 @@
 # Thera Language Support for VS Code
 
-Thera is a modern, expressive, and highly productive programming language designed specifically for LLMs, AI coding agents, and developers to write clean, fast, and robust tools and CLI applications.
+Thera is a modern, expressive, and highly productive programming language
+designed specifically for LLMs, AI coding agents, and developers to write clean,
+fast, and robust tools and CLI applications.
 
-This extension provides comprehensive, premium syntax highlighting and language support for Thera in Visual Studio Code.
+This extension provides comprehensive, premium syntax highlighting and language
+support for Thera in Visual Studio Code.
 
 ---
 
 ## Features
 
-### 🌟 Premium Syntax Highlighting
+- Rich TextMate syntax highlighting for `.thera` files
+- Code snippets for common Thera constructs
+- Language configuration: auto-closing brackets, surrounding pairs, and comment
+  toggling
+- **Run** and **Test** CodeLens actions on `main` and `#[test]` functions
+- Automatic Thera SDK detection (or configure the CLI path with `thera.path`)
 
-- **Keywords**: Full recognition of keywords (`let`, `mut`, `fn`, `return`, `throw`, `if`, `else`, `for`, `in`, `match`, `import`, `type`, `interface`, `impl`, `default`).
-- **Types**: Highlighting of built-in and user-defined capitalized types (`Int`, `Double`, `Bool`, `String`, `Void`, `List`, `Map`, `Set`, `Option`, `Result`, `Args`, `Error`, etc.).
-- **String Interpolation**: Full syntax highlighting inside single-quoted strings using `${expression}` syntax.
-- **Error Propagation**: Accurate identification of the error propagation operator (`?`).
-- **Decorators**: Beautiful highlighting for compile-time metadata and annotations (e.g. `@test`, `@route`).
-- **Functions & Namespaces**: Differentiates between standard namespaces (e.g. `std.fs`, `process.run`) and standard function calls.
-- **Comments**: Supports line comments (`//`) and block comments (`/* ... */`).
+The extension connects to the `thera lsp` language server, which provides:
 
-### ⚙️ Declarative Language Configuration
-
-- **Bracket Matching**: Highlights matching curly `{ }`, square `[ ]`, and round `( )` brackets.
-- **Auto-Closing Pairs**: Automatically closes braces, brackets, parentheses, single quotes, and double quotes.
-- **Surrounding Selection**: Easily wrap text in parenthesis, brackets, braces, or quotes by highlighting it and typing the character.
-- **Comment Toggling**: Quick toggling of single-line and block comments (`Cmd+/` / `Ctrl+/`).
+- Live diagnostics (errors and warnings), including project-wide analysis, with
+  configurable exclude globs (`thera.exclude`)
+- Hover information
+- Go to definition
+- Find all references
+- Rename symbol
+- Document symbols (outline) and workspace symbol search
+- Code actions (quick fixes)
+- Document formatting
 
 ---
 
@@ -52,15 +57,9 @@ fn main(args: Args) -> Result<Int, Error> {
 
 ### Running the Extension Locally
 
-1. Clone or copy this repository to your local VS Code extensions directory: `~/.vscode/extensions/thera`.
+1. Clone or copy this repository to your local VS Code extensions directory:
+   `~/.vscode/extensions/thera`.
 2. Alternatively, open this folder (`thera-ext`) in VS Code.
 3. Press **`F5`** to launch a new **[Extension Development Host]** window.
-4. In the new window, open any file ending in `.thera` to experience premium syntax highlighting!
-
-### Debugging TextMate Scopes
-
-To inspect the exact scopes applied to Thera tokens:
-
-1. Open the command palette (`Cmd+Shift+P` / `Ctrl+Shift+P`).
-2. Run **`Developer: Inspect Editor Tokens and Scopes`**.
-3. Click on any token in your `.thera` file to inspect its TextMate scope (e.g. `source.thera`).
+4. In the new window, open any file ending in `.thera` to experience premium
+   syntax highlighting!
