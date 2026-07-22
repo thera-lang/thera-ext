@@ -1,4 +1,4 @@
-# Thera Language Support for VS Code
+## Thera Language Support for VS Code
 
 Thera is a modern, expressive, and highly productive programming language
 designed specifically for LLMs, AI coding agents, and developers to write clean,
@@ -6,8 +6,6 @@ fast, and robust tools and CLI applications.
 
 This extension provides comprehensive, premium syntax highlighting and language
 support for Thera in Visual Studio Code.
-
----
 
 ## Features
 
@@ -30,9 +28,7 @@ The extension connects to the `thera lsp` language server, which provides:
 - Code actions (quick fixes)
 - Document formatting
 
----
-
-## Language Specifications At A Glance
+## Language At A Glance
 
 Thera's syntax is familiar, clean, and expression-oriented:
 
@@ -50,8 +46,6 @@ fn main(args: Args) -> Result<Int, Error> {
     return Ok(0);
 }
 ```
-
----
 
 ## Installation & Development
 
