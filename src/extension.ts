@@ -67,7 +67,10 @@ function theraExecutableFrom(picked: string): string | undefined {
     return undefined;
   }
   if (!stat.isDirectory()) return picked;
-  for (const candidate of [path.join(picked, "bin", exe), path.join(picked, exe)]) {
+  for (const candidate of [
+    path.join(picked, "bin", exe),
+    path.join(picked, exe),
+  ]) {
     if (fs.existsSync(candidate)) return candidate;
   }
   return undefined;
@@ -158,7 +161,7 @@ class TheraCodeLensProvider implements CodeLensProvider {
   provideCodeLenses(document: TextDocument): CodeLens[] {
     const lenses: CodeLens[] = [];
     const text = document.getText();
-    
+
     // Naive regex to find main and test functions
     const mainRegex = /^(?:pub\s+)?fn\s+main\s*\(/gm;
     let match;
@@ -170,7 +173,7 @@ class TheraCodeLensProvider implements CodeLensProvider {
           title: "Run",
           command: "thera.run",
           arguments: [document.uri.fsPath],
-        })
+        }),
       );
     }
 
@@ -183,10 +186,10 @@ class TheraCodeLensProvider implements CodeLensProvider {
           title: "Test",
           command: "thera.test",
           arguments: [document.uri.fsPath, match[1]],
-        })
+        }),
       );
     }
-    
+
     return lenses;
   }
 }
@@ -298,7 +301,9 @@ export async function activate(context: ExtensionContext) {
           );
         }
       } catch (error) {
-        window.showErrorMessage(`Failed to start Thera Language Server: ${error}`);
+        window.showErrorMessage(
+          `Failed to start Thera Language Server: ${error}`,
+        );
       }
     },
   );
@@ -309,7 +314,7 @@ export async function activate(context: ExtensionContext) {
       const thera = await ensureTheraPath();
       if (!thera) return;
       runInTerminal(`${thera} run "${file}"`);
-    }
+    },
   );
 
   const testCommand = commands.registerCommand(
@@ -319,12 +324,12 @@ export async function activate(context: ExtensionContext) {
       const thera = await ensureTheraPath();
       if (!thera) return;
       runInTerminal(`${thera} test "${file}"`);
-    }
+    },
   );
 
   const codeLensProvider = languages.registerCodeLensProvider(
     { scheme: "file", language: "thera" },
-    new TheraCodeLensProvider()
+    new TheraCodeLensProvider(),
   );
 
   // Push a live `thera.exclude` change to the running server (it applies the new
