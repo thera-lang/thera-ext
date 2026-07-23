@@ -11,6 +11,7 @@
 
 - Initial release of language support for the **Hawk** programming language.
 - Full TextMate syntax highlighting grammar (`syntaxes/hawk.tmLanguage.json`).
-- Declarative language configuration (`language-configuration.json`) with auto-closing pairs, brackets, surrounding pairs, and line/block comments.
+- Declarative language configuration (`language-configuration.json`) with
+  auto-closing pairs, brackets, surrounding pairs, and line/block comments.
 - VS Code debugging and extension workspace integration (`.vscode/launch.json`).
 - Detailed user guide and development instructions (`README.md`).
