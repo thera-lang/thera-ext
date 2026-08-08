@@ -55,6 +55,118 @@
     "strings": {
       "patterns": [
         {
+          "name": "string.quoted.triple.single.thera",
+          "begin": "'''",
+          "beginCaptures": {
+            "0": {
+              "name": "punctuation.definition.string.begin.thera"
+            }
+          },
+          "end": "'''",
+          "endCaptures": {
+            "0": {
+              "name": "punctuation.definition.string.end.thera"
+            }
+          },
+          "patterns": [
+            {
+              "name": "constant.character.escape.thera",
+              "match": "\\\\."
+            },
+            {
+              "name": "meta.embedded.line.thera",
+              "begin": "\\$\\{",
+              "beginCaptures": {
+                "0": {
+                  "name": "punctuation.section.embedded.begin.thera"
+                }
+              },
+              "end": "\\}",
+              "endCaptures": {
+                "0": {
+                  "name": "punctuation.section.embedded.end.thera"
+                }
+              },
+              "patterns": [
+                {
+                  "include": "$self"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "string.quoted.triple.double.thera",
+          "begin": "\"\"\"",
+          "beginCaptures": {
+            "0": {
+              "name": "punctuation.definition.string.begin.thera"
+            }
+          },
+          "end": "\"\"\"",
+          "endCaptures": {
+            "0": {
+              "name": "punctuation.definition.string.end.thera"
+            }
+          },
+          "patterns": [
+            {
+              "name": "constant.character.escape.thera",
+              "match": "\\\\."
+            },
+            {
+              "name": "meta.embedded.line.thera",
+              "begin": "\\$\\{",
+              "beginCaptures": {
+                "0": {
+                  "name": "punctuation.section.embedded.begin.thera"
+                }
+              },
+              "end": "\\}",
+              "endCaptures": {
+                "0": {
+                  "name": "punctuation.section.embedded.end.thera"
+                }
+              },
+              "patterns": [
+                {
+                  "include": "$self"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "string.quoted.raw.single.thera",
+          "begin": "r'",
+          "beginCaptures": {
+            "0": {
+              "name": "punctuation.definition.string.begin.thera"
+            }
+          },
+          "end": "'",
+          "endCaptures": {
+            "0": {
+              "name": "punctuation.definition.string.end.thera"
+            }
+          }
+        },
+        {
+          "name": "string.quoted.raw.double.thera",
+          "begin": "r\"",
+          "beginCaptures": {
+            "0": {
+              "name": "punctuation.definition.string.begin.thera"
+            }
+          },
+          "end": "\"",
+          "endCaptures": {
+            "0": {
+              "name": "punctuation.definition.string.end.thera"
+            }
+          }
+        },
+        {
           "name": "string.quoted.single.thera",
           "begin": "'",
           "beginCaptures": {
@@ -158,8 +270,19 @@
           "match": "\\b(return|throw|if|else|for|in|while|match|break|continue)\\b"
         },
         {
+          "match": "\\b(native)\\s+(type)\\b",
+          "captures": {
+            "1": {
+              "name": "keyword.declaration.thera"
+            },
+            "2": {
+              "name": "keyword.declaration.thera"
+            }
+          }
+        },
+        {
           "name": "keyword.declaration.thera",
-          "match": "\\b(let|mut|const|pub|fn|type|struct|interface|enum|impl|native)\\b"
+          "match": "\\b(let|mut|const|pub|fn|struct|interface|enum|impl|native)\\b"
         },
         {
           "name": "keyword.other.import.thera",
